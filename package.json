@@ -1,0 +1,21 @@
+{
+  "name": "mongo-lite-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/jasmine"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "es6-promise": "^3.0.2",
+    "idb-wrapper": "^1.6.1"
+  },
+  "devDependencies": {
+    "jasmine": "^2.3.2"
+  }
+}
