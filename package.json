@@ -3,14 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "test": "./node_modules/.bin/jasmine",
-    "build" : "./node_modules/.bin/browserify index.js -o bin/bundle.js"
+    "build" : "./node_modules/.bin/browserify index.js -o bin/mongo-lite.js"
   },
-  "author": "",
+  "author": "Mark Humphrey",
   "license": "ISC",
   "dependencies": {
     "es6-promise": "^3.0.2",

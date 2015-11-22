@@ -1,4 +1,4 @@
-var MongoClient = require("../lib/mongo-client");
+var MongoClient = require("../../lib/mongo-client");
 
 describe("connect", function() {
 
