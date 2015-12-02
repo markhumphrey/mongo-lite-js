@@ -1,11 +1,12 @@
 var Collection = require("../../../lib/memory-db/collection");
+var MemoryStore = require("../../../lib/memory-db/store");
+var Db = require("../../../lib/memory-db/db");
 
 describe("collection", function() {
 
   var collection;
   var testDocuments;
-  beforeEach(function() {
-    collection = new Collection();
+  beforeEach(function(done) {
     testDocuments = [
       {
         item: "ABC2",
@@ -26,6 +27,12 @@ describe("collection", function() {
         category: "houseware"
       }
     ];
+
+    var db = new Db("test", new MemoryStore());
+    db.createCollection("foo", function(error, col) {
+      collection = col;
+      done();
+    });
   });
 
   it("should delete one document matching filter", function(done) {
@@ -35,7 +42,7 @@ describe("collection", function() {
       }, function(error, result) {
         collection.find().toArray(function(error, docs) {
           var MN02_INDEX = 1;
-          testDocuments.splice(MNO2_INDEX, 1);
+          testDocuments.splice(MN02_INDEX, 1);
           expect(docs).toBe(testDocuments);
           done();
         });
