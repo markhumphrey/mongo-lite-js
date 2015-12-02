@@ -1,10 +1,11 @@
 var Db = require("../../../lib/memory-db/db");
+var MemoryStore = require("../../../lib/memory-db/store");
 
 describe("db", function() {
 
   var db;
   beforeEach(function() {
-    db = new Db();
+    db = new Db("test", new MemoryStore());
   });
 
   it("should return existing collection", function(done) {
