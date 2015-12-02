@@ -18,7 +18,7 @@ describe("db", function() {
   });
 
   it("should error when collection does not exist", function(done) {
-    db.collection("foo", {}, function(error, collection) {
+    db.collection("foo", function(error, collection) {
       expect(error).not.toBeNull();
       expect(collection).toBeNull();
       done();
@@ -26,8 +26,15 @@ describe("db", function() {
   });
 
   it("should return array of all collections", function(done) {
-    expect(true);
-    done();
+    db.createCollection("foo", function() {
+      db.createCollection("bar", function() {
+        db.collections(function(error, collections) {
+          expect(error).toBeNull();
+          expect(collections).not.toBe([[],[]]);
+          done();
+        });
+      });
+    });
   });
 
   it("should delete existing collection", function(done) {
