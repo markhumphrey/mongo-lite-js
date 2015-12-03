@@ -4,8 +4,12 @@ var Db = require("../../../lib/memory-db/db");
 
 describe("collection", function() {
 
-  var collection;
+  var emptyCollection;
+  var testCollection;
   var testDocuments;
+  var XYZ_INDEX;
+  var JKL_INDEX;
+
   beforeEach(function(done) {
     testDocuments = [
       {
@@ -27,25 +31,30 @@ describe("collection", function() {
         memos: [ { memo: "on time", by: "payment" }, { memo: "delayed", by: "shipping" } ]
       }
     ];
+    XYZ_INDEX = 0;
+    JKL_INDEX = 1;
 
     var db = new Db("test", new MemoryStore());
-    db.createCollection("foo", function(error, col) {
-      collection = col;
-      done();
+    db.createCollection("empty", function(error, emptyCol) {
+      emptyCollection = emptyCol;
+      db.createCollection("test", function(error, testCol) {
+        testCollection = testCol;
+        testCollection.insertMany(testDocuments, function() {
+          done();
+        });
+      });
     });
+
   });
 
   it("should delete one document matching filter", function(done) {
-    collection.insertMany(testDocuments, function() {
-      collection.deleteOne({
-        item: "jkl"
-      }, function(error, result) {
-        collection.find().toArray(function(error, docs) {
-          var JKL_INDEX = 1;
-          testDocuments.splice(JKL_INDEX, 1);
-          expect(docs).toEqual(testDocuments);
-          done();
-        });
+    testCollection.deleteOne({
+      item: "jkl"
+    }, function(error, result) {
+      testCollection.find().toArray(function(error, docs) {
+        testDocuments.splice(JKL_INDEX, 1);
+        expect(docs).toEqual(testDocuments);
+        done();
       });
     });
   });
@@ -56,8 +65,12 @@ describe("collection", function() {
   });
 
   it("should delete all documents matching filter", function(done) {
-    expect(true);
-    done();
+    testCollection.deleteMany({}, function(error, result) {
+      testCollection.find().toArray(function(error, docs) {
+        expect(docs).toEqual([]);
+        done();
+      });
+    });
   });
 
   it("should error when one document matching filter does not exist", function(done) {
@@ -66,18 +79,31 @@ describe("collection", function() {
   });
 
   it("should find documents matching query", function(done) {
-    expect(true);
-    done();
+    testCollection.find({
+      item: "jkl"
+    }).toArray(function(error, docs) {
+      var testDoc = testDocuments.slice(JKL_INDEX, JKL_INDEX + 1);
+      expect(docs).toEqual(testDoc);
+      done();
+    });
   });
 
   it("should insert one document", function(done) {
-    expect(true);
-    done();
+    emptyCollection.insertOne(testDocuments[XYZ_INDEX], function(error, result) {
+      emptyCollection.find().toArray(function(error, docs) {
+        expect(docs).toEqual([testDocuments[XYZ_INDEX]]);
+        done();
+      });
+    });
   });
 
   it("should insert many documents", function(done) {
-    expect(true);
-    done();
+    emptyCollection.insertMany(testDocuments, function(error, result) {
+      emptyCollection.find().toArray(function(error, docs) {
+        expect(docs).toEqual(testDocuments);
+        done();
+      });
+    });
   });
 
   it("should replace one document matching filter", function(done) {
