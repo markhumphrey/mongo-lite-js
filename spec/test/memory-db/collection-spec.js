@@ -38,12 +38,12 @@ describe("collection", function() {
   it("should delete one document matching filter", function(done) {
     collection.insertMany(testDocuments, function() {
       collection.deleteOne({
-        item: "MN02"
+        item: "MNO2"
       }, function(error, result) {
         collection.find().toArray(function(error, docs) {
-          var MN02_INDEX = 1;
-          testDocuments.splice(MN02_INDEX, 1);
-          expect(docs).toBe(testDocuments);
+          var MNO2_INDEX = 1;
+          testDocuments.splice(MNO2_INDEX, 1);
+          expect(docs).toEqual(testDocuments);
           done();
         });
       });
