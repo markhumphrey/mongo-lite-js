@@ -1,7 +1,7 @@
-var Cursor = require("../../../lib/memory-db/cursor");
-var Collection = require("../../../lib/memory-db/collection");
-var MemoryStore = require("../../../lib/memory-db/store");
-var Db = require("../../../lib/memory-db/db");
+var Cursor = require("../../lib/cursor");
+var Collection = require("../../lib/collection");
+var MemoryStore = require("../../lib/memory-db/store");
+var Db = require("../../lib/db");
 
 describe("cursor", function() {
 

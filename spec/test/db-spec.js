@@ -1,5 +1,5 @@
-var Db = require("../../../lib/memory-db/db");
-var MemoryStore = require("../../../lib/memory-db/store");
+var Db = require("../../lib/db");
+var MemoryStore = require("../../lib/memory-db/store");
 
 describe("db", function() {
 
