@@ -9,22 +9,22 @@ describe("collection", function() {
   beforeEach(function(done) {
     testDocuments = [
       {
-        item: "ABC2",
-        details: { model: "14Q3", manufacturer: "M1 Corporation" },
-        stock: [ { size: "M", qty: 50 } ],
-        category: "clothing"
+        _id: 100,
+        type: "food",
+        item: "xyz",
+        qty: 25,
+        price: 2.5,
+        ratings: [ 5, 8, 9 ],
+        memos: [ { memo: "on time", by: "shipping" }, { memo: "approved", by: "billing" } ]
       },
       {
-        item: "MNO2",
-        details: { model: "14Q3", manufacturer: "ABC Company" },
-        stock: [ { size: "S", qty: 5 }, { size: "M", qty: 5 }, { size: "L", qty: 1 } ],
-        category: "clothing"
-      },
-      {
-        item: "IJK2",
-        details: { model: "14Q2", manufacturer: "M5 Corporation" },
-        stock: [ { size: "S", qty: 5 }, { size: "L", qty: 1 } ],
-        category: "houseware"
+        _id: 101,
+        type: "fruit",
+        item: "jkl",
+        qty: 10,
+        price: 4.25,
+        ratings: [ 5, 9 ],
+        memos: [ { memo: "on time", by: "payment" }, { memo: "delayed", by: "shipping" } ]
       }
     ];
 
@@ -38,11 +38,11 @@ describe("collection", function() {
   it("should delete one document matching filter", function(done) {
     collection.insertMany(testDocuments, function() {
       collection.deleteOne({
-        item: "MNO2"
+        item: "jkl"
       }, function(error, result) {
         collection.find().toArray(function(error, docs) {
-          var MNO2_INDEX = 1;
-          testDocuments.splice(MNO2_INDEX, 1);
+          var JKL_INDEX = 1;
+          testDocuments.splice(JKL_INDEX, 1);
           expect(docs).toEqual(testDocuments);
           done();
         });
