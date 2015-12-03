@@ -1,13 +1,62 @@
 var Cursor = require("../../../lib/memory-db/cursor");
+var Collection = require("../../../lib/memory-db/collection");
+var MemoryStore = require("../../../lib/memory-db/store");
+var Db = require("../../../lib/memory-db/db");
 
 describe("cursor", function() {
 
-  beforeEach(function() {
+  var emptyCollection;
+  var testCollection;
+  var emptyCursor;
+  var testCursor;
+  var testDocuments;
+  var XYZ_INDEX;
+  var JKL_INDEX;
+
+  beforeEach(function(done) {
+    testDocuments = [
+      {
+        _id: 100,
+        type: "food",
+        item: "xyz",
+        qty: 25,
+        price: 2.5,
+        ratings: [ 5, 8, 9 ],
+        memos: [ { memo: "on time", by: "shipping" }, { memo: "approved", by: "billing" } ]
+      },
+      {
+        _id: 101,
+        type: "fruit",
+        item: "jkl",
+        qty: 10,
+        price: 4.25,
+        ratings: [ 5, 9 ],
+        memos: [ { memo: "on time", by: "payment" }, { memo: "delayed", by: "shipping" } ]
+      }
+    ];
+    XYZ_INDEX = 0;
+    JKL_INDEX = 1;
+
+    var db = new Db("test", new MemoryStore());
+    db.createCollection("empty", function(error, emptyCol) {
+      emptyCollection = emptyCol;
+      emptyCursor = emptyCollection.find();
+      db.createCollection("test", function(error, testCol) {
+        testCollection = testCol;
+        testCursor = testCollection.find();
+        testCollection.insertMany(testDocuments, function() {
+          done();
+        });
+      });
+    });
+
   });
 
   it("should count total number of documents", function(done) {
-      expect(true);
+    testCursor.count(function(error, count) {
+      expect(count).toEqual(testDocuments.length);
       done();
+    });
   });
 
   it("should add filter and return cursor", function(done) {
@@ -16,8 +65,13 @@ describe("cursor", function() {
   });
 
   it("should return true if more documents", function(done) {
-    expect(true);
-    done();
+    testCursor.hasNext(function(error, next) {
+      expect(next).toEqual(true);
+      testCursor.next(function(error, doc) {
+        expect(next).toEqual(true);
+        done();
+      });
+    });
   });
 
   it("should return false if no more documents", function(done) {
@@ -41,8 +95,13 @@ describe("cursor", function() {
   });
 
   it("should return next document", function(done) {
-    expect(true);
-    done();
+    testCursor.next(function(error, doc) {
+      expect(doc).toEqual(testDocuments[0]);
+      testCursor.next(function(error, doc) {
+        expect(doc).toEqual(testDocuments[1]);
+        done();
+      });
+    });
   });
 
   it("should error if no next document", function(done) {
