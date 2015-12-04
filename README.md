@@ -8,7 +8,7 @@ Currently the and a in-memory storage imeplementation, and I am beginning to imp
 
 ## Installation
 
-To install depdencencies:
+To install dependencies:
 ```
 npm install
 ```
