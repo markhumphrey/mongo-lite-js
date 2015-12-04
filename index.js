@@ -1,1 +1,1 @@
-require("./lib/mongo-client");
+module.exports.MongoClient = require("./lib/mongo-client");

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Hello, World!</title>
+</head>
+
+<body>
+  <label>
+    <input type="text" onkeydown="onDocEnter(this)">
+  </label>
+  <p id="collection-view">
+  </p>
+  <script src="/bin/mongo-lite.js"></script>
+  <script>
+    var client = new mongolite.MongoClient();
+    var collection;
+    client.connect("hello-world", function(error, db) {
+      db.createCollection("test", function(error, col) {
+        collection = col;
+      });
+    });
+
+    var onDocEnter = function(el) {
+      if (event.keyCode !== 13) {
+        return;
+      }
+      doc = {
+        item: el.value
+      };
+      collection.insertOne(doc, function(error, result) {
+        renderCollection();
+      });
+    };
+
+    var renderCollection = function() {
+      collection.find().toArray(function(error, docs) {
+        var el = document.getElementById('collection-view');
+        el.innerHTML = JSON.stringify(docs);
+      });
+    };
+    onDocSubmit();
+  </script>
+</body>
+
+</html>
