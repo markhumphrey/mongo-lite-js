@@ -1,29 +1,75 @@
-# README #
+# mhumphrey/mongo-lite-js
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This is an evolving personal project implementing a simple MongoDB-like interface on top of the browser-based IndexedDB.
 
-### What is this repository for? ###
+https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Currently the and a in-memory storage imeplementation, and I am beginning to implement the IndexedDB storage engine. 
 
-### How do I get set up? ###
+## Installation
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+To install depdencencies:
+```
+npm install
+```
 
-### Contribution guidelines ###
+To generate a bundled javascript file for browser use: 
+```
+npm run-script browserify
+```
+This will bundle the source into /bin/mongo-db-lite.js with a top level module named "mongolite".
 
-* Writing tests
-* Code review
-* Other guidelines
+## Usage
 
-### Who do I talk to? ###
+Until the interface has stabilized and is documented, the best way to get an idea of usage is through the tests in the spec/ directory.
 
-* Repo owner or admin
-* Other community or team contact
+The examples/ directory has some sample usage. 
+
+```
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Hello, World!</title>
+</head>
+
+<body>
+  <label>
+    <input type="text" onkeydown="onDocEnter(this)">
+  </label>
+  <p id="collection-view">
+  </p>
+  <script src="/bin/mongo-lite.js"></script>
+  <script>
+    var client = new mongolite.MongoClient();
+    var collection;
+    client.connect("hello-world", function(error, db) {
+      db.createCollection("test", function(error, col) {
+        collection = col;
+      });
+    });
+
+    var onDocEnter = function(el) {
+      if (event.keyCode !== 13) {
+        return;
+      }
+      doc = {
+        item: el.value
+      };
+      collection.insertOne(doc, function(error, result) {
+        renderCollection();
+      });
+    };
+
+    var renderCollection = function() {
+      collection.find().toArray(function(error, docs) {
+        var el = document.getElementById('collection-view');
+        el.innerHTML = JSON.stringify(docs);
+      });
+    };
+    onDocSubmit();
+  </script>
+</body>
+
+</html>
+```
