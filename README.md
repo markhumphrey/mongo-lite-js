@@ -1,4 +1,4 @@
-# mhumphrey/mongo-lite-js
+# markhumphrey/mongo-lite-js
 
 This is an evolving personal project implementing a simple MongoDB-like interface on top of the browser-based IndexedDB.
 
@@ -21,7 +21,7 @@ This will bundle the source into /bin/mongo-db-lite.js with a top level module n
 
 ## Usage
 
-Until the interface has stabilized and is documented, the best way to get an idea of usage is through the tests in the spec/ directory.
+Until the interface has stabilized and is documented the best way to get an idea of usage is through the tests in the spec/ directory.
 
 The examples/ directory has some sample usage. 
 
