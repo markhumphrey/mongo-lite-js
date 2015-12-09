@@ -1,11 +1,18 @@
-var Db = require("../../lib/db");
-var MemoryStore = require("../../lib/memory-db/store");
+var DB = require("../../lib/db");
+var MongoClient = require("../../lib/mongo-client");
 
-describe("db", function() {
+describe("db MemoryDB", function() { describeDB({ store: "memory"}); });
+describe("db IndexedDB", function() { describeDB({ store: "indexed-db"}); });
+
+function describeDB(options) {
 
   var db;
-  beforeEach(function() {
-    db = new Db("test", new MemoryStore());
+  beforeEach(function(done) {
+    var client = new MongoClient();
+    client.connect("test", options, function(error, testdb) {
+      db = testdb;
+      done();
+    });
   });
 
   it("should return existing collection", function(done) {
@@ -73,4 +80,4 @@ describe("db", function() {
     done();
   });
 
-});
+}

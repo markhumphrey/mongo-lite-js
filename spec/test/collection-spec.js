@@ -1,8 +1,10 @@
 var Collection = require("../../lib/collection");
-var MemoryStore = require("../../lib/memory-db/store");
-var Db = require("../../lib/db");
+var MongoClient = require("../../lib/mongo-client");
 
-describe("collection", function() {
+describe("collection MemoryDB", function() { describeCollection({ store: "memory"}); });
+describe("collection IndexedDB", function() { describeCollection({ store: "indexed-db"}); });
+
+function describeCollection(options) {
 
   var emptyCollection;
   var testCollection;
@@ -34,13 +36,17 @@ describe("collection", function() {
     XYZ_INDEX = 0;
     JKL_INDEX = 1;
 
-    var db = new Db("test", new MemoryStore());
-    db.createCollection("empty", function(error, emptyCol) {
-      emptyCollection = emptyCol;
-      db.createCollection("test", function(error, testCol) {
-        testCollection = testCol;
-        testCollection.insertMany(testDocuments, function() {
-          done();
+    var db;
+    var client = new MongoClient();
+    client.connect("test", options, function(error, testdb) {
+      db = testdb;
+      db.createCollection("empty", function(error, emptyCol) {
+        emptyCollection = emptyCol;
+        db.createCollection("test", function(error, testCol) {
+          testCollection = testCol;
+          testCollection.insertMany(testDocuments, function() {
+            done();
+          });
         });
       });
     });
@@ -121,4 +127,4 @@ describe("collection", function() {
     done();
   });
 
-});
+}

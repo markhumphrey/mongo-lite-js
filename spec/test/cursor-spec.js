@@ -1,9 +1,10 @@
 var Cursor = require("../../lib/cursor");
-var Collection = require("../../lib/collection");
-var MemoryStore = require("../../lib/memory-db/store");
-var Db = require("../../lib/db");
+var MongoClient = require("../../lib/mongo-client");
 
-describe("cursor", function() {
+describe("cursor MemoryDB", function() { describeCursor({ store: "memory"}); });
+describe("cursor IndexedDB", function() { describeCursor({ store: "indexed-db"}); });
+
+function describeCursor(options) {
 
   var emptyCollection;
   var testCollection;
@@ -37,15 +38,19 @@ describe("cursor", function() {
     XYZ_INDEX = 0;
     JKL_INDEX = 1;
 
-    var db = new Db("test", new MemoryStore());
-    db.createCollection("empty", function(error, emptyCol) {
-      emptyCollection = emptyCol;
-      emptyCursor = emptyCollection.find();
-      db.createCollection("test", function(error, testCol) {
-        testCollection = testCol;
-        testCursor = testCollection.find();
-        testCollection.insertMany(testDocuments, function() {
-          done();
+    var db;
+    var client = new MongoClient();
+    client.connect("test", options, function(error, testdb) {
+      db = testdb;
+      db.createCollection("empty", function(error, emptyCol) {
+        emptyCollection = emptyCol;
+        emptyCursor = emptyCollection.find();
+        db.createCollection("test", function(error, testCol) {
+          testCollection = testCol;
+          testCursor = testCollection.find();
+          testCollection.insertMany(testDocuments, function() {
+            done();
+          });
         });
       });
     });
@@ -119,4 +124,4 @@ describe("cursor", function() {
     done();
   });
 
-});
+}

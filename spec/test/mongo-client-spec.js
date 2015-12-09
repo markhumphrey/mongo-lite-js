@@ -1,6 +1,9 @@
 var MongoClient = require("../../lib/mongo-client");
 
-describe("connect", function() {
+describe("mongo-client MemoryDB", function() { describeMongoClient({ store: "memory"}); });
+describe("mongo-client IndexedDB", function() { describeMongoClient({ store: "indexed-db"}); });
+
+function describeMongoClient(options) {
 
   var client;
   beforeEach(function() {
@@ -16,4 +19,4 @@ describe("connect", function() {
       client.connect("", {}, null);
     }).toThrow();
   });
-});
+}
