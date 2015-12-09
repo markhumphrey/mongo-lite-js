@@ -9,6 +9,10 @@
   },
   "author": "Mark Humphrey",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markhumphrey/mongo-lite-js.git"
+  },
   "dependencies": {
     "es6-promise": "^3.0.2",
     "idb-wrapper": "^1.6.1"
