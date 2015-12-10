@@ -1,7 +1,7 @@
 var MongoClient = require("../../lib/mongo-client");
 
-describe("mongo-client MemoryDB", function() { describeMongoClient({ store: "memory"}); });
-describe("mongo-client IndexedDB", function() { describeMongoClient({ store: "indexed-db"}); });
+describe("mongo-client:MemoryDB", function() { describeMongoClient({ store: "memory"}); });
+describe("mongo-client:IndexedDB", function() { describeMongoClient({ store: "indexed-db"}); });
 
 function describeMongoClient(options) {
 
@@ -16,7 +16,7 @@ function describeMongoClient(options) {
 
   it("should throw an error on null callback", function() {
     expect(function() {
-      client.connect("", {}, null);
+      client.connect("", options, null);
     }).toThrow();
   });
 }

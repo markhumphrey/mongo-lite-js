@@ -1,8 +1,8 @@
 var DB = require("../../lib/db");
 var MongoClient = require("../../lib/mongo-client");
 
-describe("db MemoryDB", function() { describeDB({ store: "memory"}); });
-describe("db IndexedDB", function() { describeDB({ store: "indexed-db"}); });
+describe("db:MemoryDB", function() { describeDB({ store: "memory"}); });
+describe("db:IndexedDB", function() { describeDB({ store: "indexed-db"}); });
 
 function describeDB(options) {
 

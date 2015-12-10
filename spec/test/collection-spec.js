@@ -1,8 +1,8 @@
 var Collection = require("../../lib/collection");
 var MongoClient = require("../../lib/mongo-client");
 
-describe("collection MemoryDB", function() { describeCollection({ store: "memory"}); });
-describe("collection IndexedDB", function() { describeCollection({ store: "indexed-db"}); });
+describe("collection:MemoryDB", function() { describeCollection({ store: "memory"}); });
+describe("collection:IndexedDB", function() { describeCollection({ store: "indexed-db"}); });
 
 function describeCollection(options) {
 

@@ -1,8 +1,8 @@
 var Cursor = require("../../lib/cursor");
 var MongoClient = require("../../lib/mongo-client");
 
-describe("cursor MemoryDB", function() { describeCursor({ store: "memory"}); });
-describe("cursor IndexedDB", function() { describeCursor({ store: "indexed-db"}); });
+describe("cursor:MemoryDB", function() { describeCursor({ store: "memory"}); });
+describe("cursor:IndexedDB", function() { describeCursor({ store: "indexed-db"}); });
 
 function describeCursor(options) {
 
