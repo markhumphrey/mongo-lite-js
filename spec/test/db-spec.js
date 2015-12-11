@@ -15,6 +15,17 @@ function describeDB(options) {
     });
   });
 
+  afterEach(function(done) {
+    var db;
+    var client = new MongoClient();
+    client.connect("test", options, function(error, testdb) {
+      db = testdb;
+      db.dropDatabase(function(error, result) {
+        done();
+      });
+    });
+  });
+
   it("should return existing collection", function(done) {
     db.createCollection("foo", function() {
       db.collection("foo", {}, function(error, collection) {

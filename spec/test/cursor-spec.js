@@ -57,6 +57,17 @@ function describeCursor(options) {
 
   });
 
+  afterEach(function(done) {
+    var db;
+    var client = new MongoClient();
+    client.connect("test", options, function(error, testdb) {
+      db = testdb;
+      db.dropDatabase(function(error, result) {
+        done();
+      });
+    });
+  });
+
   it("should count total number of documents", function(done) {
     testCursor.count(function(error, count) {
       expect(count).toEqual(testDocuments.length);

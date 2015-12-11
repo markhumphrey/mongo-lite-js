@@ -53,6 +53,17 @@ function describeCollection(options) {
 
   });
 
+  afterEach(function(done) {
+    var db;
+    var client = new MongoClient();
+    client.connect("test", options, function(error, testdb) {
+      db = testdb;
+      db.dropDatabase(function(error, result) {
+        done();
+      });
+    });
+  });
+
   it("should delete one document matching filter", function(done) {
     testCollection.deleteOne({
       item: "jkl"

@@ -1,3 +1,4 @@
+require("indexeddbshim");
 require("./test/collection-spec");
 require("./test/cursor-spec");
 require("./test/db-spec");
