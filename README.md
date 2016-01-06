@@ -8,16 +8,19 @@ Currently the and a in-memory storage imeplementation, and I am beginning to imp
 
 ## Installation
 
-To install dependencies:
 ```
-npm install
+npm install --save github:markhumphrey/mongo-lite-js
 ```
 
-To generate a bundled javascript file for browser use: 
+To include using browserify:
 ```
-npm run-script browserify
+var mongolite = require('mongo-lite-js');
 ```
-This will bundle the source into /bin/mongo-db-lite.js with a top level module named "mongolite".
+
+To include using html:
+```
+<script src="/node_modules/mongo-lite-js/dist/mongo-lite.js"></script>
+```
 
 ## Usage
 
@@ -39,7 +42,7 @@ The examples/ directory has some sample usage.
   </label>
   <p id="collection-view">
   </p>
-  <script src="/bin/mongo-lite.js"></script>
+  <script src="/dist/mongo-lite.js"></script>
   <script>
     var client = new mongolite.MongoClient();
     var collection;
