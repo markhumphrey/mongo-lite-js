@@ -5,6 +5,8 @@ var gulp = require('gulp');
 var jasmine = require('gulp-jasmine-phantom');
 var source = require('vinyl-source-stream');
 
+gulp.task('build', [ 'browserify', 'browserify-test']);
+
 gulp.task('browserify', function() {
   return browserify('index.js', {
       standalone: 'mongolite',
@@ -12,7 +14,7 @@ gulp.task('browserify', function() {
     })
     .bundle()
     .pipe(source('mongo-lite.js'))
-    .pipe(gulp.dest('bin/'));
+    .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('browserify-test', function() {
@@ -21,7 +23,7 @@ gulp.task('browserify-test', function() {
     })
     .bundle()
     .pipe(source('test.js'))
-    .pipe(gulp.dest('bin/spec/'));
+    .pipe(gulp.dest('dist/spec/'));
 });
 
 gulp.task('watch', function() {
@@ -29,7 +31,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('test', function() {
-  return gulp.src("bin/spec/test.js")
+  return gulp.src("dist/spec/test.js")
     .pipe(jasmine({
       integration: true
     }));
