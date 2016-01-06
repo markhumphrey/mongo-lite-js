@@ -5,7 +5,7 @@ var gulp = require('gulp');
 var jasmine = require('gulp-jasmine-phantom');
 var source = require('vinyl-source-stream');
 
-gulp.task('build', [ 'browserify', 'browserify-test']);
+gulp.task('build', [ 'browserify' ]);
 
 gulp.task('browserify', function() {
   return browserify('index.js', {
